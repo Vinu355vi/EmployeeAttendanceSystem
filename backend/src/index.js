@@ -15,28 +15,9 @@ const app = express()
 const FRONTEND_URL = process.env.FRONTEND_URL || ''
 const allowedOrigins = FRONTEND_URL.split(',').map(s => s.trim()).filter(Boolean)
 
-if (allowedOrigins.length === 0) {
-  // default to allow all origins (useful for local/dev)
-  app.use(cors())
-  console.log('CORS: allowing all origins (no FRONTEND_URL configured)')
-} else {
-  const corsOptions = {
-    origin: function (origin, callback) {
-      // allow requests with no origin (e.g., curl, server-to-server)
-      if (!origin) return callback(null, true)
-      if (allowedOrigins.indexOf(origin) !== -1) {
-        return callback(null, true)
-      } else {
-        return callback(new Error('CORS policy: Origin not allowed'))
-      }
-    },
-    // allow cookies/auth if FRONTEND_NEEDS_CREDENTIALS is set to 'true'
-    credentials: process.env.FRONTEND_NEEDS_CREDENTIALS === 'true'
-  }
-
-  app.use(cors(corsOptions))
-  console.log('CORS: allowed origins =', allowedOrigins)
-}
+app.use(cors({
+  origin: allowedOrigins
+}))
 app.use(bodyParser.json())
 
 app.use('/api/auth', authRoutes)
