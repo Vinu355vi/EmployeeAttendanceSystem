@@ -22,7 +22,7 @@ A full-stack web application for tracking employee attendance with role-based ac
 ## Tech Stack
 
 - **Frontend:** React 18 + Vite + React Router + Axios
-- **Backend:** Node.js + Express + lowdb (JSON-based DB for MVP)
+- **Backend:** Node.js + Express + PostgreSQL
 - **Authentication:** JWT + bcrypt
 - **Containerization:** Docker 
 
